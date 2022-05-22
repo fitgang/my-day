@@ -6,12 +6,12 @@ export default function InpustTask(props) {
 
         <div className="field">
           <label htmlFor="input-heading"></label>
-          <input type="text" id="input-heading" />
+          <input type="text" id="input-heading" onChange={props.handleInputChange}/>
         </div>
         
         <div className="field">
           <label htmlFor="input-description"></label>
-          <textarea id="input-description"></textarea>
+          <textarea id="input-description" onChange={props.handleInputChange}></textarea>
         </div>
       </div>
 
@@ -19,18 +19,18 @@ export default function InpustTask(props) {
 
         <div className="field">
           <label htmlFor="input-from"></label>
-          <input type="date" id="input-from" />
+          <input type="datetime-local" id="input-from" onChange={props.handleInputChange}/>
         </div>
 
         <div className="field">
           <label htmlFor="input-to"></label>
-          <input type="date" id="input-to" />
+          <input type="datetime-local" id="input-to" onChange={props.handleInputChange}/>
         </div>
       </div>
 
       <div className="btn-grp">
-        <button type="submit">add</button>
-        <button type="button">cancel</button>
+        <button type="submit" onClick={props.handleSubmit}>add</button>
+        <button type="button" onClick={props.hideInputForm}>cancel</button>
       </div>
     </form>
   )
