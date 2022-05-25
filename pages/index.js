@@ -1,12 +1,9 @@
 import Head from 'next/head'
-import Task from '../comp/Task'
-import InpustTask from '../comp/InputTask'
-import { useState } from 'react'
-import { validateData } from '../public/dataFunctions';
+import { Provider } from 'react-redux'
+import { validateData } from '../public/dataFunctions'
+import store from '../store'
 
 export default function Home() {
-  const [viewInputForm, setViewOfInputForm] = useState(false);
-
   return (
     <>
       <Head>
@@ -14,17 +11,9 @@ export default function Home() {
         <meta name="description" content="Organize your day" />
       </Head>
 
-      <main>
-        <h1>get moving</h1>
-        <ul id="task-container">
-          <Task/>
-          <Task/>
-        </ul>
-      </main>
-
-      <InpustTask view={viewInputForm} hideInputForm={hideInputForm} handleSubmit={handleSubmit} handleInputChange={handleInputChange}/>
-      
-      <button id="add-task-btn" type='button' onClick={() => setViewOfInputForm(prev => !prev)}>+</button>
+      <Provider store={store}>
+        <Main />
+      </Provider>
     </>
   )
 
@@ -40,7 +29,7 @@ export default function Home() {
   function handleInputChange(e) {
     const inputElem = e.target;
     // If the input has focus
-    if (document.activeElement === inputElem){
+    if (document.activeElement === inputElem) {
       // then validate data 
       const errors = validateInput(inputElem);
       // If errors found, raise warning

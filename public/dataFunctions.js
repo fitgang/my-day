@@ -6,3 +6,7 @@ export function validateData(data, type) {
 
   // Check the data according a/c its type
 }
+
+export async function getTasksForToday() {
+  // Get all the tasks for today from the database
+}
