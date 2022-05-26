@@ -1,23 +1,24 @@
+import { useDispatch, useSelector } from 'react-redux'
 import Task from '../comp/Task'
 import InpustTask from '../comp/InputTask'
-import { useSelector } from 'react-redux'
+import { toggleInputForm } from '../store/reducers/view';
 
 export default function Main() {
-  const store = useSelector(store => store);
-  console.log(store)
+  const dispatch = useDispatch();
+  
+  const taskArr = useSelector(store => store.task.task);
   return (
     <>
       <main>
         <h1>get moving</h1>
         <ul id="task-container">
-          <Task />
-          <Task />
+          {taskArr.map(taskObj => <Task task={taskObj} key={taskObj.id}/>)}
         </ul>
       </main>
 
-      {/* <InpustTask hideInputForm={hideInputForm} handleSubmit={handleSubmit} handleInputChange={handleInputChange} /> */}
+      <InpustTask/>
 
-      {/* <button id="add-task-btn" type='button' onClick={() => setViewOfInputForm(prev => !prev)}>+</button> */}
+      <button id="add-task-btn" type='button' onClick={() => dispatch(toggleInputForm())}>+</button>
     </>
   )
 }
