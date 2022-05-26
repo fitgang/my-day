@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux"
+
 export default function InpustTask(props) {
+  const view = useSelector(state => state.view);
+
   return (
-    <form id="input-task-form" className={props.view === true ? "" : "none"}>
+    <form id="input-task-form" className={view === true ? "" : "none"}>
 
       <div className="field-grp">
 

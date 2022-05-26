@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit"
 // Initialize state with properties -
 // log - is the user logged in
 const initialState = {
-  log: true,
+  view: false,
 };
 
-const logSlice = createSlice({
-  name: "log",
+const viewSlice = createSlice({
+  name: "view",
   initialState
 });
 
-export default logSlice.reducer;
+export default viewSlice.reducer;
