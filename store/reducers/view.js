@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper";
 
 // Initialize state with properties -
-// log - is the user logged in
+// view - tells if the 'InputForm' is to be displayed or not
 const initialState = {
   view: false,
 };
@@ -33,6 +33,6 @@ const viewSlice = createSlice({
   },
 });
 
-export const {hideInputForm, showInputForm, toggleInputForm} = viewSlice.actions;
+export const { hideInputForm, showInputForm, toggleInputForm } = viewSlice.actions;
 
 export default viewSlice.reducer;

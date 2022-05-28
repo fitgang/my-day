@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from "react-redux"
-import { hideInputForm } from "../store/reducers/view";
+import { hideInputForm } from "../store/reducers/view"
+import { validateData } from "../public/dataFunctions";
 
 export default function InpustTask() {
   const { view } = useSelector(state => state.view);
   const dispatch = useDispatch();
 
   return (
-    <form id="input-task-form" className={view === true ? "" : "none"}>
+    <form id="input-task-form" className={view === true ? "" : "none"} onSubmit={handleSubmit}>
 
       <div className="field-grp">
 
@@ -25,7 +26,7 @@ export default function InpustTask() {
 
         <div className="field">
           <label htmlFor="input-from"></label>
-          <input type="datetime-local" id="input-from" onChange={handleInputChange} />
+          <input type="datetime-local" id="input-from" onInput={handleInputChange} />
         </div>
 
         <div className="field">
@@ -35,34 +36,47 @@ export default function InpustTask() {
       </div>
 
       <div className="btn-grp">
-        <button type="submit" onClick={handleSubmit}>add</button>
+        <button type="submit">add</button>
         <button type="button" onClick={() => dispatch(hideInputForm())}>cancel</button>
       </div>
     </form>
   )
 
   function handleSubmit(e) {
+    e.preventDefault();
     // Validate data
-    // Raise warning if errors found
+    const inputElems = e.target.querySelectorAll("input, textarea");
+    let errorFound = false;
+
+    inputElems.forEach(elem => {
+      const errors = validateInput(elem);
+      // Raise warning if errors found
+      if (errors.length !== 0) {
+        errorFound = true;
+        showErrorToUser(errors, elem);
+        return
+      }
+    });
+
+    if (errorFound === true) return;
     // Else Store to database
     // Change UI accordingly
+    // Raise warning if a problem occurs on storing in DB
     // Inform user about success
-    // Raise warning if errors found
+    console.log("correct inputs");
   }
 
   function handleInputChange(e) {
     const inputElem = e.target;
-    // If the input has focus
-    if (document.activeElement === inputElem) {
-      // then validate data 
-      const errors = validateInput(inputElem);
-      // If errors found, raise warning
-      if (errors.length !== 0) {
-        showErrorToUser()
-      }
-      // Else do nothing
+    console.log(inputElem, "got focus")
+    // then validate data 
+    const errors = validateInput(inputElem);
+    // If errors found, raise warning
+    if (errors.length !== 0) {
+      showErrorToUser(errors, inputElem)
     }
-    // Else Do nothing
+    // Else do nothing
+    else console.log("correct input");
   }
 
   function validateInput(inputElem) {
@@ -72,7 +86,7 @@ export default function InpustTask() {
     return validateData(inputElem.value, "datetime")
   }
 
-  function showErrorToUser() {
-
+  function showErrorToUser(errorArr, inputElem) {
+    console.log(errorArr[0])
   }
 }

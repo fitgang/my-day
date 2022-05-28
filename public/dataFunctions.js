@@ -1,3 +1,5 @@
+import { withRouter } from "next/router";
+
 export function validateData(data, type) {
   // If data is empty, then return this error
   if (data.length === 0) {
@@ -5,12 +7,14 @@ export function validateData(data, type) {
   }
 
   // Check the data according a/c its type
+  console.log("input data: " + data);
+  return []
 }
 
 export async function getTasksForToday() {
   // Get all the tasks for today from the database
-  const tasks = [
-    {
+  // const tasks = await fetch("/api/getTasks").then(res => res.json());
+  const tasks = [{
       id: "1",
       heading: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
@@ -25,6 +29,5 @@ export async function getTasksForToday() {
       to: "28/05/2022"
     }
   ];
-
   return tasks
 }
