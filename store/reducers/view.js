@@ -17,9 +17,6 @@ const viewSlice = createSlice({
     showInputForm: (state) => {
       state.view = true
     },
-    toggleInputForm: (state) => {
-      state.view = !state.view
-    }
   },
 
   extraReducers: {

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Task from '../comp/Task'
 import InpustTask from '../comp/InputTask'
-import { toggleInputForm } from '../store/reducers/view';
+import { showInputForm } from '../store/reducers/view';
 
 export default function Main() {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function Main() {
 
       <InpustTask/>
 
-      <button id="add-task-btn" type='button' onClick={() => dispatch(toggleInputForm())}>+</button>
+      <button id="add-task-btn" type='button' onClick={() => dispatch(showInputForm())}>+</button>
     </>
   )
 }

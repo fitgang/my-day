@@ -1,14 +1,23 @@
-import { withRouter } from "next/router";
-
 export function validateData(data, type) {
-  // If data is empty, then return this error
+  // If data is not provided, then return this error
   if (data.length === 0) {
-    return ["fill this field."]
+    return "fill this field."
+  }
+
+  if (type === "time") {
+    // If the time given is of the past
+    // The allowed time is from the current hour
+    // 24 hour format
+    const currentHour = (new Date()).getHours(),
+      inputHour = Number(data.substring(0, 2));
+
+    if (inputHour < currentHour) {
+      return `Do not pick a time before ${currentHour > 12 ? `${currentHour-12}PM` : `${currentHour}AM`}`
+    }
   }
 
   // Check the data according a/c its type
-  console.log("input data: " + data);
-  return []
+  return
 }
 
 export async function getTasksForToday() {

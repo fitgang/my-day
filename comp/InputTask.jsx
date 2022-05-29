@@ -7,37 +7,41 @@ export default function InpustTask() {
   const dispatch = useDispatch();
 
   return (
-    <form id="input-task-form" className={view === true ? "" : "none"} onSubmit={handleSubmit}>
+    <form id="input-task-form" className={view === true ? "" : "none"} onSubmit={handleSubmit} noValidate>
 
       <div className="field-grp">
-
-        <div className="field">
-          <label htmlFor="input-heading"></label>
-          <input type="text" id="input-heading" onChange={handleInputChange} />
+        {/*heading */}
+        <div className="field form-floating">
+          <label htmlFor="input-heading">write a task</label>
+          <input type="text" className="form-control" id="input-heading" />
+          <div className="error-box"></div>
         </div>
-
-        <div className="field">
-          <label htmlFor="input-description"></label>
-          <textarea id="input-description" onChange={handleInputChange}></textarea>
+        {/*description */}
+        <div className="field form-floating">
+          <label htmlFor="input-description">describe the task</label>
+          <textarea id="input-description" className="form-control"></textarea>
+          <div className="error-box"></div>
         </div>
       </div>
 
       <div className="field-grp">
-
-        <div className="field">
-          <label htmlFor="input-from"></label>
-          <input type="datetime-local" id="input-from" onInput={handleInputChange} />
+        {/*from time */}
+        <div className="field form-floating">
+          <label htmlFor="input-from">from time</label>
+          <input type="time" className="form-control" id="input-from" />
+          <div className="error-box"></div>
         </div>
-
-        <div className="field">
-          <label htmlFor="input-to"></label>
-          <input type="datetime-local" id="input-to" onChange={handleInputChange} />
+        {/*to time */}
+        <div className="field form-floating">
+          <label htmlFor="input-to">to time</label>
+          <input type="time" className="form-control" id="input-to" />
+          <div className="error-box"></div>
         </div>
       </div>
 
       <div className="btn-grp">
         <button type="submit">add</button>
-        <button type="button" onClick={() => dispatch(hideInputForm())}>cancel</button>
+        <button type="button" onClick={(e) => emptyFormAndHide(document.getElementById("input-task-form"))}>cancel</button>
       </div>
     </form>
   )
@@ -46,47 +50,69 @@ export default function InpustTask() {
     e.preventDefault();
     // Validate data
     const inputElems = e.target.querySelectorAll("input, textarea");
-    let errorFound = false;
+    let errorFoundInElemAtIndex = -1;
 
-    inputElems.forEach(elem => {
-      const errors = validateInput(elem);
-      // Raise warning if errors found
-      if (errors.length !== 0) {
-        errorFound = true;
-        showErrorToUser(errors, elem);
-        return
+    inputElems.forEach((elem, index) => {
+      clearErrorBoxOf(elem);
+
+      const errorStr = validateInput(elem);
+      if (errorStr !== undefined) {
+        // Raise warning if errors found
+        if (errorFoundInElemAtIndex === -1) errorFoundInElemAtIndex = index;
+        showErrorToUser(errorStr, elem);
       }
+      // Else do nothing
     });
 
-    if (errorFound === true) return;
-    // Else Store to database
-    // Change UI accordingly
-    // Raise warning if a problem occurs on storing in DB
-    // Inform user about success
-    console.log("correct inputs");
-  }
-
-  function handleInputChange(e) {
-    const inputElem = e.target;
-    console.log(inputElem, "got focus")
-    // then validate data 
-    const errors = validateInput(inputElem);
-    // If errors found, raise warning
-    if (errors.length !== 0) {
-      showErrorToUser(errors, inputElem)
+    // View the first field with an error 
+    if (errorFoundInElemAtIndex !== -1) {
+      inputElems[errorFoundInElemAtIndex].focus();
+      return
     }
-    // Else do nothing
-    else console.log("correct input");
+
+    // Else Store to database
+    // Raise warning if a problem occurs on storing in DB
+
+    // Update redux store
+
+    // Hide form
+    emptyFormAndHide(e.target);
+
+    // Inform user about success
+    // Add the new task to UI
+    // Show a success toast
+    console.log("correct inputs");
   }
 
   function validateInput(inputElem) {
     if (inputElem.type.includes("text")) {
-      return validateData(inputElem.value, "text")
+      const input = inputElem.value.trimStart().replaceAll("  ", " ");
+      inputElem.value = input;
     }
-    return validateData(inputElem.value, "datetime")
+    return validateData(inputElem.value, inputElem.type)
   }
 
-  function showErrorToUser(errorArr, inputElem) {
-    console.log(errorArr[0])
+  function emptyFormAndHide(formElem) {
+      // Hide form
+      dispatch(hideInputForm());
+
+    // Empty all fields in the form
+    const inputElems = formElem.querySelectorAll("input, textarea");
+    inputElems.forEach(elem => {
+      // Clear fields
+      elem.value = ""
+      // Clear errors
+      clearErrorBoxOf(elem);
+    })
+  }
+
+  function showErrorToUser(error, inputElem) {
+    const errorBox = inputElem.parentElement.querySelector(".error-box");
+    errorBox.innerHTML = error;
+  }
+
+  function clearErrorBoxOf(inputElem) {
+    const errorBox = inputElem.parentElement.querySelector(".error-box");
+    errorBox.innerHTML = ""
   }
 }
