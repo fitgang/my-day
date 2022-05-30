@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { getTasksForToday } from "../../public/dataFunctions";
+import { getTasksForToday } from "../../js/dataFunctions";
 
 // Initialize state with properties -
 // task - all the tasks for the day

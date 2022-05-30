@@ -1,7 +1,6 @@
 // TODO: create a function to get the login status of the user and pass it to 'getServerSideProps' function
 
 import Head from 'next/head'
-import Script from 'next/script'
 import { useState } from 'react'
 import LoginForm from '../comp/LoginForm'
 import Main from '../comp/Main'

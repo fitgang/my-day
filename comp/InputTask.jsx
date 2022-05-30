@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux"
 import { hideInputForm } from "../store/reducers/view"
-import { validateData } from "../public/dataFunctions";
+import { validateData } from "../js/dataFunctions";
 
 export default function InpustTask() {
   const { view } = useSelector(state => state.view);
