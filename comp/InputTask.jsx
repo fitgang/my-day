@@ -1,8 +1,87 @@
-import { useSelector, useDispatch } from "react-redux"
-import { hideInputForm } from "../store/reducers/view"
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { IconButton } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddIcon from '@mui/icons-material/Add';
+import TimeField from './TimeField';
 import { validateData } from "../js/dataFunctions";
 
 export default function InpustTask() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+
+      <IconButton
+      size='large'
+        sx={{ 
+          backgroundColor: 'primary.main',
+          color: "#fff",
+          "&:hover": {
+            backgroundColor: 'primary.darker'
+          }
+        }}
+        aria-label="add a task"
+        onClick={handleClickOpen}
+      >
+        <AddIcon/>
+      </IconButton>
+
+      <Dialog open={open} onClose={handleClose} component="form">
+        <DialogTitle>New Task</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="input-name"
+            label="Name"
+            type="text"
+            fullWidth
+            variant="outlined"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="input-description"
+            label="Describe the task"
+            type="text"
+            fullWidth
+            multiline
+            rows={3}
+            variant="outlined"
+          />
+
+          <TimeField label="From" />
+
+          <TimeField label="To" />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Subscribe</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+
+function IpustTask() {
   const { view } = useSelector(state => state.view);
   const dispatch = useDispatch();
 
@@ -93,8 +172,8 @@ export default function InpustTask() {
   }
 
   function emptyFormAndHide(formElem) {
-      // Hide form
-      dispatch(hideInputForm());
+    // Hide form
+    dispatch(hideInputForm());
 
     // Empty all fields in the form
     const inputElems = formElem.querySelectorAll("input, textarea");

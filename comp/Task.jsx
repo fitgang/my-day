@@ -29,7 +29,7 @@ export default function Task(props) {
   const { heading, description, from, to } = props.task;
 
   return (
-    <Card component="li">
+    <Card component="li" variant="outlined">
       <CardContent>
         <Typography variant="h5" component="div" color="text.secondary">
           {heading}
@@ -37,7 +37,7 @@ export default function Task(props) {
       </CardContent>
       <CardActions disableSpacing>
         <Typography paragraph>
-          Details -
+          {from} - {to}
         </Typography>
         <ExpandMore
           expand={expanded}
