@@ -6,16 +6,14 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 export default function TimeField(props) {
   const [value, setValue] = React.useState(null);
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TimePicker
-        label={props.label}
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
         }}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <TextField {...params} {...props} />}
       />
     </LocalizationProvider>
   );

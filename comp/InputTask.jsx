@@ -5,29 +5,19 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { IconButton, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import TimeField from './TimeField';
 import { validateData } from "../js/dataFunctions";
 
-export default function InpustTask() {
+export default function InputTask() {
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div>
-
       <IconButton
-      size='large'
-        sx={{ 
+        size='large'
+        sx={{
           backgroundColor: 'primary.main',
           color: "#fff",
           "&:hover": {
@@ -37,47 +27,61 @@ export default function InpustTask() {
         aria-label="add a task"
         onClick={handleClickOpen}
       >
-        <AddIcon/>
+        <AddIcon />
       </IconButton>
 
-      <Dialog open={open} onClose={handleClose} component="form">
-        <DialogTitle>New Task</DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add a New Task</DialogTitle>
         <DialogContent>
+          <Stack spacing={2}>
+            <TextField
+              autoFocus
+              id="input-name"
+              label="Name"
+              type="text"
+              fullWidth
+              variant="filled"
+              placeholder='Create a new task'
+            />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="input-name"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="outlined"
-          />
+            <TextField
+              autoFocus
+              id="input-description"
+              label="Describe the task"
+              type="text"
+              fullWidth
+              multiline
+              rows={3}
+              variant="filled"
+              placeholder='The task will have a name and a description'
+            />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="input-description"
-            label="Describe the task"
-            type="text"
-            fullWidth
-            multiline
-            rows={3}
-            variant="outlined"
-          />
-
-          <TimeField label="From" />
-
-          <TimeField label="To" />
-
+            <Stack direction="row" spacing={2}>
+              <TimeField label="From" variant="filled" />
+              <TimeField label="To" variant="filled" />
+            </Stack>
+          </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button size='large' onClick={handleClose}>Cancel</Button>
+          <Button size="large" onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>
-  );
+  )
+
+  function handleClickOpen() {
+    setOpen(true)
+  }
+
+  function handleClose() {
+    setOpen(false)
+  }
+
+  function handleSubmit() {
+    console.log("submitted");
+    handleClose();
+  }
 }
 
 

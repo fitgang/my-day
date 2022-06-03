@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import Task from '../comp/Task'
-import InpustTask from '../comp/InputTask'
+import InputTask from '../comp/InputTask'
 import styles from "../styles/Main.module.css"
 
 export default function Main() {
@@ -13,7 +13,7 @@ export default function Main() {
           {taskArr.map(taskObj => <Task task={taskObj} key={taskObj.id} />)}
         </ul>
 
-      <InpustTask />
+      <InputTask />
       </main>
   )
 }
