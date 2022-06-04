@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton, Stack } from '@mui/material';
+import { Stack, Fab, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import TimeField from './TimeField';
 import { validateData } from "../js/dataFunctions";
@@ -14,21 +14,10 @@ export default function InputTask() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div>
-      <IconButton
-        size='large'
-        sx={{
-          backgroundColor: 'primary.main',
-          color: "#fff",
-          "&:hover": {
-            backgroundColor: 'primary.darker'
-          }
-        }}
-        aria-label="add a task"
-        onClick={handleClickOpen}
-      >
+    <Box sx={{position: 'relative', bottom: '20px'}}>
+      <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
         <AddIcon />
-      </IconButton>
+      </Fab>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add a New Task</DialogTitle>
@@ -60,14 +49,16 @@ export default function InputTask() {
               <TimeField label="From" variant="filled" />
               <TimeField label="To" variant="filled" />
             </Stack>
+
           </Stack>
         </DialogContent>
+
         <DialogActions>
           <Button size='large' onClick={handleClose}>Cancel</Button>
           <Button size="large" onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   )
 
   function handleClickOpen() {

@@ -1,61 +1,45 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import { Stack, Box } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import Options from './Options';
+import ExpandMore from './ExpandMore';
 
 export default function Task(props) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleClick = () => {
+    setOpen(!open);
   };
 
   const { heading, description, from, to } = props.task;
 
   return (
-    <Card component="li" variant="outlined">
-      <CardContent>
-        <Typography variant="h5" component="div" color="text.secondary">
-          {heading}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <Typography paragraph>
-          {from} - {to}
-        </Typography>
+    <Stack component="li" sx={{ borderBottom: props.border }}>
+      <Stack direction='row' sx={{alignItems: 'center', padding: '0.5em 1em'}}>
+
+        <ListItemText primary={heading} secondary={`${from} - ${to}`} />
+
         <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
+          expand={open}
+          onClick={handleClick}
+          aria-expanded={open}
+          aria-label="show details"
         >
           <ExpandMoreIcon />
         </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            {description}
-          </Typography>
-        </CardContent>
+
+        <Options />
+
+      </Stack>
+
+      <Collapse in={open} timeout="auto">
+        <ListItemText primary={description} sx={{ paddingX: "1em", paddingBottom: "0.5em" }} />
       </Collapse>
-    </Card>
+    </Stack>
   );
 }
 

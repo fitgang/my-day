@@ -5,10 +5,18 @@
 body {
   padding: 0;
   margin: 0;
+  overflow-y: hidden;
 }
 
 h1 {
   margin: 0;
+  border: 1px solid;
+  font-weight: 400;
+  font-size: 1.75em;
+  text-transform: uppercase;
+  padding: 0.25em 0.5em;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .none {
