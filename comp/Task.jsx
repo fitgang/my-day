@@ -17,7 +17,7 @@ export default function Task(props) {
   };
 
   const status = evaluateStatusOf(props.task);
-  const { heading, description, from, to } = props.task;
+  const { heading, description, from, to, id } = props.task;
 
   return (
     <Stack component="li"
@@ -43,7 +43,7 @@ export default function Task(props) {
           <ExpandMoreIcon />
         </ExpandMore>
 
-        <Options />
+        <Options taskID={id}/>
 
       </Stack>
 

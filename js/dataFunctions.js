@@ -12,7 +12,7 @@ export function validateData(data, type) {
       inputHour = Number(data.substring(0, 2));
 
     if (inputHour < currentHour) {
-      return `Do not pick a time before ${currentHour > 12 ? `${currentHour-12}PM` : `${currentHour}AM`}`
+      return `Do not pick a time before ${currentHour > 12 ? `${currentHour - 12}PM` : `${currentHour}AM`}`
     }
   }
 
@@ -23,48 +23,54 @@ export function validateData(data, type) {
 export async function getTasksForToday() {
   // Get all the tasks for today from the database
   // const tasks = await fetch("/api/getTasks").then(res => res.json());
-  const tasks = [{
+  const tasks = {
+    1: {
       id: "1",
       heading: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
       from: "8:00AM",
       to: "12:00AM"
     },
-    {
+
+    2: {
       id: "2",
       heading: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
       from: "10AM",
       to: "11AM"
     },
-    {
+
+    3: {
       id: "3",
       heading: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
       from: "8:00AM",
       to: "12:00AM"
     },
-    {
+
+    4: {
       id: "4",
       heading: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
       from: "2:15 PM",
       to: "2:15 PM"
     },
-    {
+
+    5: {
       id: "5",
       heading: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
       from: "8:00AM",
       to: "12:00AM"
     },
-    {
+    
+    6: {
       id: "6",
       heading: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
       from: "2:15 PM",
       to: "2:15 PM"
     }
-  ];
+  };
   return tasks
 }

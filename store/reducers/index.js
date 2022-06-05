@@ -1,2 +1,4 @@
 export { default as taskReducer }
-from "./task"
+from "./task";
+export { default as inputTaskReducer }
+from "./inputTask";

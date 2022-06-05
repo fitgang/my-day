@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import Task from './Task';
 
 export default function TaskList() {
-  const taskArr = useSelector(store => store.task.task);
+  const tasks = useSelector(store => store.task.task); // 'tasks' is an obj containing all tasks with every 'task' an an obj value and its id as the key
 
   const border = '0.5px solid';
   return (
@@ -17,7 +17,7 @@ export default function TaskList() {
       }}
       aria-labelledby="tasks for the day"
     >
-      {taskArr.map(taskObj => <Task task={taskObj} key={taskObj.id} border={border} />)}
+      {Object.values(tasks).map(taskObj => <Task task={taskObj} key={taskObj.id} border={border} />)}
     </List>
   );
 }

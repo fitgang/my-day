@@ -12,12 +12,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 export default function Options() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <div>
@@ -35,14 +29,14 @@ export default function Options() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClickOnEdit}>
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
           <ListItemText>Edit</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClickOnDelete}>
           <ListItemIcon>
             <DeleteIcon />
           </ListItemIcon>
@@ -51,5 +45,21 @@ export default function Options() {
 
       </Menu>
     </div>
-  );
+  )
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget)
+  }
+
+  function handleClose() {
+    setAnchorEl(null)
+  }
+
+  function handleClickOnEdit() {
+    
+  }
+
+  function handleClickOnDelete() {
+    
+  }
 }
