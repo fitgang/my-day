@@ -5,10 +5,11 @@ import { createSlice } from "@reduxjs/toolkit";
 // other values are the input values with property indicating the input ids
 const initialState = {
   open: false,
-  name: '',
+  hasError: 0,
+  name: 'Task',
   description: '',
   from: Date.now(),
-  to: Date.now() + 1000
+  to: Date.now() + 1 * 60 * 1000
 };
 
 const inputTaskSlice = createSlice({
@@ -28,6 +29,7 @@ const inputTaskSlice = createSlice({
       else if (inputs.hasOwnProperty("description")) state.description = inputs.description;
       else if (inputs.hasOwnProperty("from")) state.from = inputs.from;
       else if (inputs.hasOwnProperty("to")) state.to = inputs.to;
+      else if (inputs.hasOwnProperty("hasError")) state.hasError += inputs.hasError;
     }
   }
 });

@@ -1,3 +1,5 @@
+// TODO: make the view of inputTAsk form a global state on the client side
+
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -15,8 +17,10 @@ import FromTimeField from './FromTimeField';
 import ToTimeField from './ToTimeField';
 
 export default function InputTask() {
-  const { open, description, from, to } = useSelector(store => store.inputTask);
+  const { open, description, hasError } = useSelector(store => store.inputTask);
   const dispatch = useDispatch();
+
+  // console.log(FromTimeField);
 
   return (
     <Box sx={{ position: 'relative', bottom: '20px' }}>
@@ -45,8 +49,8 @@ export default function InputTask() {
             />
 
             <Stack direction="row" spacing={2}>
-              <FromTimeField/>
-              <ToTimeField/>
+              {console.log(<FromTimeField />)}
+              <ToTimeField />
             </Stack>
 
           </Stack>
@@ -69,15 +73,20 @@ export default function InputTask() {
   }
 
   function handleSubmit() {
+    // Check for errors
+    if (hasError !== 0) {
+      // Raise concern
+      alert(`You have ${hasError} errors, clear them before submitting.`);
+      return
+    }
     // Create new task object
     validateAndCreateNewTask();
     // Save it to DB
-    // If error found, raise concern
     // Else update the store and inform the user about success
-    console.log("submitted");
     // Empty and close the form
     dispatch(emptyForm());
     handleClose();
+    console.log("submitted");
   }
 
   function validateAndCreateNewTask() {
