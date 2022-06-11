@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import TimeField from './TimeField'
-import { updateForm } from '../store/reducers/inputTask';
+import { updateFormValues, updateFormErrors } from '../store/reducers/inputTask';
 
 export default function ToTimeField() {
   const dispatch = useDispatch();
@@ -8,15 +8,13 @@ export default function ToTimeField() {
   const { from, to } = useSelector(store => store.inputTask);
 
   return (
-    <TimeField
-      label="To"
-      value={to}
-      error={to <= from}
-      handleChange={handleChange}
-    />
+    <></>
   );
 
   function handleChange(newValue) {
-    dispatch(updateForm({ to: newValue.getTime() }))
+    if (newValue.getTime() <= from) {
+      dispatch(updateFormErrors({to: true}));
+    }
+    dispatch(updateFormValues({ to: newValue.getTime() }))
   }
 }

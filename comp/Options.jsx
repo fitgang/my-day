@@ -1,51 +1,10 @@
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import { useState } from "react";
 
 export default function Options() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  return (
-    <div>
-      <IconButton
-        aria-label="options"
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClickOnEdit}>
-          <ListItemIcon>
-            <EditIcon />
-          </ListItemIcon>
-          <ListItemText>Edit</ListItemText>
-        </MenuItem>
-
-        <MenuItem onClick={handleClickOnDelete}>
-          <ListItemIcon>
-            <DeleteIcon />
-          </ListItemIcon>
-          <ListItemText>Delete</ListItemText>
-        </MenuItem>
-
-      </Menu>
-    </div>
-  )
+  return (<></>)
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget)
@@ -56,7 +15,8 @@ export default function Options() {
   }
 
   function handleClickOnEdit() {
-    
+    // Use taskID passed as a prop to find the task in the store
+    // Put the data accordingly in the 'InputTask' form
   }
 
   function handleClickOnDelete() {

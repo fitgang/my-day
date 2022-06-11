@@ -1,16 +1,9 @@
-import * as React from 'react';
-import { Stack } from '@mui/material';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { useState } from 'react';
 import Options from './Options';
-import ExpandMore from './ExpandMore';
 import theme from '../styles/theme';
 
 export default function Task(props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -20,37 +13,24 @@ export default function Task(props) {
   const { heading, description, from, to, id } = props.task;
 
   return (
-    <Stack component="li"
-      sx={{
-        borderBottom: props.border,
-        backgroundColor: evaluateBGColor(status),
-        color: '#fff'
-      }}>
-
-      <Stack direction='row' sx={{ alignItems: 'center', padding: '0.5em 1em' }}>
-
-        <FormControlLabel
-          control={<Checkbox sx={{ marginRight: '0.5em' }} />}
-          label={<ListItemText primary={heading} secondary={`${from} - ${to}`} sx={{ fontSize: '5em' }} />}
-        />
-
-        <ExpandMore
-          expand={open}
-          onClick={handleClick}
-          aria-expanded={open}
-          aria-label="show details"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-
-        <Options taskID={id}/>
-
-      </Stack>
-
-      <Collapse in={open} timeout="auto">
-        <ListItemText primary={description} sx={{ paddingX: "1em", paddingBottom: "0.5em" }} />
-      </Collapse>
-    </Stack>
+    <li>
+      <div className="primary">
+        <div className="check-action-container">
+          <input type="checkbox" aria-label={heading}/>
+        </div>
+        <div className="details">
+          <h4>{heading}</h4>
+          <div className="duration">
+            <span className="from">{from}</span> - <span className="to">{to}</span>
+          </div>
+        </div>
+        <div className="other-actions-container">
+          <button className="more" type='button'></button>
+          <button className="show" type='button'></button>
+        </div>
+      </div>
+      <p className="secondary">{description}</p>
+    </li>
   );
 
   // Returns a char for status

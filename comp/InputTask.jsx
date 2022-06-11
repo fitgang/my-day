@@ -1,84 +1,64 @@
 // TODO: make the view of inputTAsk form a global state on the client side
-
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Stack, Fab, Box } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from "react-redux";
 import { validateData } from "../js/dataFunctions";
-import { emptyForm, toggleFormDisplay, updateForm } from "../store/reducers/inputTask"
-import NameField from './NameField';
-import FromTimeField from './FromTimeField';
-import ToTimeField from './ToTimeField';
+import {
+  emptyForm,
+  toggleFormDisplay,
+  updateFormValues,
+} from "../store/reducers/inputTask";
+import NameField from "./NameField";
+import FromTimeField from "./FromTimeField";
+import ToTimeField from "./ToTimeField";
+import InputField from "./InputField";
 
 export default function InputTask() {
-  const { open, description, hasError } = useSelector(store => store.inputTask);
+  const { open, description, newTask, errors } = useSelector(
+    (store) => store.inputTask
+  );
   const dispatch = useDispatch();
 
   // console.log(FromTimeField);
 
   return (
-    <Box sx={{ position: 'relative', bottom: '20px' }}>
-      <Fab color="primary" aria-label="add task" onClick={handleClickOpen}>
-        <AddIcon />
-      </Fab>
+    <div>
+      <button aria-label="add task" onClick={handleClickOpen}></button>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Task</DialogTitle>
-        <DialogContent>
-          <Stack spacing={2}>
-            <NameField />
+      <form open={open} onClose={handleClose}>
+        <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
 
-            <TextField
-              autoFocus
-              id="input-description"
-              label="Describe the task"
-              type="text"
-              fullWidth
-              multiline
-              rows={3}
-              variant="filled"
-              placeholder='The task will have a name and a description'
-              value={description}
-              onChange={(e) => dispatch(updateForm({ description: e.target.value }))}
-            />
+        <NameField />
 
-            <Stack direction="row" spacing={2}>
-              {console.log(<FromTimeField />)}
-              <ToTimeField />
-            </Stack>
+        <InputField />
 
-          </Stack>
-        </DialogContent>
+        <div>
+          <FromTimeField />
+          <ToTimeField />
+        </div>
 
-        <DialogActions>
-          <Button size='large' onClick={handleClose}>Cancel</Button>
-          <Button size="large" onClick={handleSubmit}>Add</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
-  )
+        <div className="form-actions">
+          <button size="large" onClick={handleClose} type="button">
+            Cancel
+          </button>
+          <button size="large" onClick={handleSubmit}>
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 
   function handleClickOpen() {
-    dispatch(toggleFormDisplay(true))
+    dispatch(toggleFormDisplay(true));
   }
 
   function handleClose() {
-    dispatch(toggleFormDisplay(false))
+    dispatch(toggleFormDisplay(false));
   }
 
   function handleSubmit() {
     // Check for errors
-    if (hasError !== 0) {
-      // Raise concern
-      alert(`You have ${hasError} errors, clear them before submitting.`);
-      return
-    }
+    if (checkForErrors() === true) return;
+
     // Create new task object
     validateAndCreateNewTask();
     // Save it to DB
@@ -89,15 +69,24 @@ export default function InputTask() {
     console.log("submitted");
   }
 
-  function validateAndCreateNewTask() {
-    return
-    // Validate data
-    validateData()
+  function checkForErrors() {
+    console.table(errors);
+    for (let field in errors) {
+      if (errors[field] === true) return true;
+    }
 
-    // View the first field with an error 
+    return false;
+  }
+
+  function validateAndCreateNewTask() {
+    return;
+    // Validate data
+    validateData();
+
+    // View the first field with an error
     if (errorFoundInElemAtIndex !== -1) {
       inputElems[errorFoundInElemAtIndex].focus();
-      return
+      return;
     }
   }
 }
@@ -107,7 +96,7 @@ function validateInput(inputElem) {
     const input = inputElem.value.trimStart().replaceAll("  ", " ");
     inputElem.value = input;
   }
-  return validateData(inputElem.value, inputElem.type)
+  return validateData(inputElem.value, inputElem.type);
 }
 
 function emptyFormAndHide(formElem) {
@@ -116,12 +105,12 @@ function emptyFormAndHide(formElem) {
 
   // Empty all fields in the form
   const inputElems = formElem.querySelectorAll("input, textarea");
-  inputElems.forEach(elem => {
+  inputElems.forEach((elem) => {
     // Clear fields
-    elem.value = ""
+    elem.value = "";
     // Clear errors
     clearErrorBoxOf(elem);
-  })
+  });
 }
 
 function showErrorToUser(error, inputElem) {
@@ -131,5 +120,5 @@ function showErrorToUser(error, inputElem) {
 
 function clearErrorBoxOf(inputElem) {
   const errorBox = inputElem.parentElement.querySelector(".error-box");
-  errorBox.innerHTML = ""
+  errorBox.innerHTML = "";
 }
