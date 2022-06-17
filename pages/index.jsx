@@ -6,7 +6,6 @@ import LoginForm from "../comp/LoginForm";
 import Main from "../comp/Main";
 
 export default function Home(props) {
-  const [log, setLog] = useState(props.log);
 
   return (
     <>
@@ -14,7 +13,7 @@ export default function Home(props) {
         <title>my day</title>
         <meta name="description" content="Organize your day" />
       </Head>
-      {log ? <Main /> : <LoginForm />}
+      {props.log ? <Main /> : <LoginForm />}
     </>
   );
 }

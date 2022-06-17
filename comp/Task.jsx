@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import Options from './Options';
-import theme from '../styles/theme';
+import { useState, useRef } from "react";
+import Options from "./Options";
+import theme from "../styles/theme";
+import { CloseIcon, MoreIcon, ShowIcon } from "./Icon";
 
 export default function Task(props) {
-  const [open, setOpen] = useState(false);
+  const [expand, setExpand] = useState(false),
+   [options, setOptions] = useState(false);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const expandingElem = useRef();
 
   const status = evaluateStatusOf(props.task);
   const { heading, description, from, to, id } = props.task;
@@ -16,22 +16,54 @@ export default function Task(props) {
     <li>
       <div className="primary">
         <div className="check-action-container">
-          <input type="checkbox" aria-label={heading}/>
+          <input type="checkbox" aria-label={heading} />
         </div>
+
         <div className="details">
           <h4>{heading}</h4>
           <div className="duration">
-            <span className="from">{from}</span> - <span className="to">{to}</span>
+            <span className="from">{from}</span> -{" "}
+            <span className="to">{to}</span>
           </div>
         </div>
+
         <div className="other-actions-container">
-          <button className="more" type='button'></button>
-          <button className="show" type='button'></button>
+          <button className="more" type="button" onClick={toggleOptions}>
+            {options === true ? <CloseIcon /> : <MoreIcon />}
+          </button>
+
+          <button
+            className="show"
+            type="button"
+            onClick={toggleDisplayOfDescription}
+          >
+            <ShowIcon flip={expand === true ? "vertical" : null} />
+          </button>
         </div>
       </div>
-      <p className="secondary">{description}</p>
+
+      <Options show={options}/>
+
+      <p
+        className="secondary"
+        ref={expandingElem}
+        style={{
+          maxHeight:
+            expand === true ? `${expandingElem.current.scrollHeight}px` : 0,
+        }}
+      >
+        {description}
+      </p>
     </li>
   );
+
+  function toggleDisplayOfDescription() {
+    setExpand((prev) => !prev);
+  }
+
+  function toggleOptions() {
+    setOptions((prev) => !prev);
+  }
 
   // Returns a char for status
   function evaluateStatusOf(taskObj) {
@@ -40,8 +72,12 @@ export default function Task(props) {
 
     // Else find the status
     // Compare time in minutes
-    let timeFrom = Number(taskObj.from.substring(0, 2)) * 60 + Number(taskObj.from.substring(3, 5)),
-      timeTo = Number(taskObj.to.substring(0, 2)) * 60 + Number(taskObj.to.substring(3, 5));
+    let timeFrom =
+        Number(taskObj.from.substring(0, 2)) * 60 +
+        Number(taskObj.from.substring(3, 5)),
+      timeTo =
+        Number(taskObj.to.substring(0, 2)) * 60 +
+        Number(taskObj.to.substring(3, 5));
 
     if (taskObj.from.toUpperCase().includes("PM")) timeFrom += 12 * 60;
     if (taskObj.to.toUpperCase().includes("PM")) timeTo += 12 * 60;
@@ -60,11 +96,15 @@ export default function Task(props) {
 
   // Input is a char, Returns a color
   function evaluateBGColor(status) {
-    switch(status){
-      case "C": return theme.palette.success.main;
-      case "Y": return theme.palette.warning.main;
-      case "L": return theme.palette.wait.main;
-      default: return theme.palette.primary.main; // For 'G'
+    switch (status) {
+      case "C":
+        return theme.palette.success.main;
+      case "Y":
+        return theme.palette.warning.main;
+      case "L":
+        return theme.palette.wait.main;
+      default:
+        return theme.palette.primary.main; // For 'G'
     }
   }
 }

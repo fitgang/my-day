@@ -10,6 +10,7 @@ import NameField from "./NameField";
 import FromTimeField from "./FromTimeField";
 import ToTimeField from "./ToTimeField";
 import InputField from "./InputField";
+import { AddIcon } from "./Icon";
 
 export default function InputTask() {
   const { open, description, newTask, errors } = useSelector(
@@ -17,34 +18,36 @@ export default function InputTask() {
   );
   const dispatch = useDispatch();
 
-  // console.log(FromTimeField);
-
   return (
-    <div>
-      <button aria-label="add task" onClick={handleClickOpen}></button>
+    <>
+      <button aria-label="add task" onClick={handleClickOpen}>
+        <AddIcon />
+      </button>
 
-      <form open={open} onClose={handleClose}>
-        <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
+      <div className={open === true ? "modal" : "none"}>
+        <form id="input-task-form">
+          <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
 
-        <NameField />
+          <NameField />
 
-        <InputField />
+          <InputField />
 
-        <div>
-          <FromTimeField />
-          <ToTimeField />
-        </div>
+          <div>
+            <FromTimeField />
+            <ToTimeField />
+          </div>
 
-        <div className="form-actions">
-          <button size="large" onClick={handleClose} type="button">
-            Cancel
-          </button>
-          <button size="large" onClick={handleSubmit}>
-            Add
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="form-actions">
+            <button size="large" onClick={handleClose} type="button">
+              Cancel
+            </button>
+            <button size="large" onClick={handleSubmit}>
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 
   function handleClickOpen() {

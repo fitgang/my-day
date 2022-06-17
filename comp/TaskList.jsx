@@ -8,6 +8,7 @@ export default function TaskList() {
   return (
     <ul
       aria-labelledby="tasks for the day"
+      id='task-list'
     >
       {Object.values(tasks).map(taskObj => <Task task={taskObj} key={taskObj.id} border={border} />)}
     </ul>

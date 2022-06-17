@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { DeleteIcon, EditIcon } from "./Icon";
 
-export default function Options() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+export default function Options(props) {
+  const optionsElem = useRef();
 
-  return (<></>)
+  return (
+    <div
+      className="options"
+      ref={optionsElem}
+      style={{
+        maxHeight:
+          props.show === true ? `${optionsElem.current.scrollHeight}px` : 0,
+      }}
+    >
+      <button type="button">
+        <EditIcon/>
+      </button>
+
+      <button type="button">
+        <DeleteIcon/>
+      </button>
+    </div>
+  );
 
   function handleClick(event) {
-    setAnchorEl(event.currentTarget)
+    setAnchorEl(event.currentTarget);
   }
 
   function handleClose() {
-    setAnchorEl(null)
+    setAnchorEl(null);
   }
 
   function handleClickOnEdit() {
@@ -19,7 +36,5 @@ export default function Options() {
     // Put the data accordingly in the 'InputTask' form
   }
 
-  function handleClickOnDelete() {
-    
-  }
+  function handleClickOnDelete() {}
 }

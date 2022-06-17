@@ -1,0 +1,6 @@
+.secondary,
+.options {
+  transition: max-height 1s ease;
+  margin: 0;
+  overflow: hidden;
+}
