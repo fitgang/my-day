@@ -4,4 +4,12 @@
   left: 0;
   width: 100%;
   height: 100%;
+  background: #0009;
+  display: grid;
+  place-content: center;
+}
+
+#input-task-form {
+  padding: 1em 3em;
+  background: #fff;
 }

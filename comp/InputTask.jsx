@@ -1,22 +1,22 @@
 // TODO: make the view of inputTAsk form a global state on the client side
 import { useDispatch, useSelector } from "react-redux";
+import { AddIcon } from "./Icon";
 import { validateData } from "../js/dataFunctions";
 import {
   emptyForm,
   toggleFormDisplay,
   updateFormValues,
 } from "../store/reducers/inputTask";
-import NameField from "./NameField";
-import FromTimeField from "./FromTimeField";
-import ToTimeField from "./ToTimeField";
-import InputField from "./InputField";
-import { AddIcon } from "./Icon";
+import InputField, { TimeField } from "./InputField";
+import { useRef } from "react";
 
 export default function InputTask() {
-  const { open, description, newTask, errors } = useSelector(
+  const { open, name, description, to, from, newTask } = useSelector(
     (store) => store.inputTask
   );
   const dispatch = useDispatch();
+
+  const formElem = useRef();
 
   return (
     <>
@@ -25,23 +25,36 @@ export default function InputTask() {
       </button>
 
       <div className={open === true ? "modal" : "none"}>
-        <form id="input-task-form">
+        <form id="input-task-form" ref={formElem}>
           <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
 
-          <NameField />
+          <InputField
+            id="input-name"
+            label="Name"
+            type="text"
+            placeholder="Create a new task"
+            defaultValue={name}
+          />
 
-          <InputField />
+          <InputField
+            id="input-description"
+            label="Describe the task"
+            type="textarea"
+            placeholder="The task will have a name and a description"
+            defaultValue={description}
+          />
 
           <div>
-            <FromTimeField />
-            <ToTimeField />
+            <TimeField label="from" id="input-from" defaultValue={from} />
+            <TimeField label="to" id="input-to" defaultValue={to}/>
           </div>
 
           <div className="form-actions">
-            <button size="large" onClick={handleClose} type="button">
+            <button onClick={handleClose} type="button">
               Cancel
             </button>
-            <button size="large" onClick={handleSubmit}>
+
+            <button onClick={handleSubmit}>
               Add
             </button>
           </div>
@@ -73,12 +86,7 @@ export default function InputTask() {
   }
 
   function checkForErrors() {
-    console.table(errors);
-    for (let field in errors) {
-      if (errors[field] === true) return true;
-    }
-
-    return false;
+    
   }
 
   function validateAndCreateNewTask() {

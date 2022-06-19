@@ -1,4 +1,5 @@
 #task-list {
   overflow-y: auto;
-  height: 90vh;
+  height: calc(100vh - var(--h1-height) - var(--header-height));
+  margin: 0;
 }

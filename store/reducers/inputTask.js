@@ -7,15 +7,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   open: false,
   newTask: true,
-  name: 'Task',
+  name: '',
   description: '',
-  from: Date.now(),
-  to: Date.now() + 1 * 60 * 1000,
-  errors: {
-    name: false,
-    from: false,
-    to: false
-  }
+  from: '',
+  to: ''
 };
 
 const inputTaskSlice = createSlice({
@@ -35,16 +30,9 @@ const inputTaskSlice = createSlice({
       else if (inputs.hasOwnProperty("description")) state.description = inputs.description;
       else if (inputs.hasOwnProperty("from")) state.from = inputs.from;
       else if (inputs.hasOwnProperty("to")) state.to = inputs.to;
-    },
-    updateFormErrors: (state, action) => {
-      // Update the errors of form inputs
-      const inputs = action.payload;
-      if (inputs.hasOwnProperty("name")) state.errors.name = inputs.name;
-      else if (inputs.hasOwnProperty("from")) state.errors.from = inputs.from;
-      else if (inputs.hasOwnProperty("to")) state.errors.to = inputs.to;
     }
   }
 });
 
-export const { emptyForm, toggleFormDisplay, updateFormValues, updateFormErrors } = inputTaskSlice.actions;
+export const { emptyForm, toggleFormDisplay, updateFormValues } = inputTaskSlice.actions;
 export default inputTaskSlice.reducer;

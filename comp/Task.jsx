@@ -42,7 +42,7 @@ export default function Task(props) {
         </div>
       </div>
 
-      <Options show={options}/>
+      <Options show={options} taskID={id} />
 
       <p
         className="secondary"

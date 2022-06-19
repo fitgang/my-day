@@ -3,6 +3,11 @@
 @import "./TaskList.module.css";
 @import "./Task.module.css";
 
+:root{
+  --h1-height: 4rem;
+  --header-height: 4rem;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -22,8 +27,13 @@ h1 {
   padding: 0.25em 0.5em;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  height: var(--h1-height);
 }
 
 .none {
   display: none;
+}
+
+header {
+  height: var(--header-height);
 }
