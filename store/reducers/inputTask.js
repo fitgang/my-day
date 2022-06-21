@@ -7,32 +7,47 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   open: false,
   newTask: true,
-  name: '',
-  description: '',
-  from: '',
-  to: ''
+  name: "",
+  description: "",
+  from: {
+    hour: 12,
+    min: 0,
+    m: "am"
+  },
+  to: {
+    hour: 12,
+    min: 0,
+    m: "pm"
+  },
 };
 
 const inputTaskSlice = createSlice({
   name: "inputTask",
   initialState,
   reducers: {
-    emptyForm: () => {
-      return { open: true, newTask: true, ...initialState }
+    emptyForm: (state) => {
+      return {
+        open: false,
+        newTask: true,
+        ...initialState
+      };
     },
     toggleFormDisplay: (state, action) => {
-      state.open = action.payload
+      state.open = action.payload;
     },
     updateFormValues: (state, action) => {
       // Update the values of form inputs
       const inputs = action.payload;
       if (inputs.hasOwnProperty("name")) state.name = inputs.name;
-      else if (inputs.hasOwnProperty("description")) state.description = inputs.description;
-      else if (inputs.hasOwnProperty("from")) state.from = inputs.from;
-      else if (inputs.hasOwnProperty("to")) state.to = inputs.to;
-    }
-  }
+      if (inputs.hasOwnProperty("description"))
+        state.description = inputs.description;
+      if (inputs.hasOwnProperty("from")) state.from = inputs.from;
+      if (inputs.hasOwnProperty("to")) state.to = inputs.to;
+      if (inputs.hasOwnProperty("newTask")) state.newTask = inputs.newTask;
+    },
+  },
 });
 
-export const { emptyForm, toggleFormDisplay, updateFormValues } = inputTaskSlice.actions;
+export const { emptyForm, toggleFormDisplay, updateFormValues } =
+  inputTaskSlice.actions;
 export default inputTaskSlice.reducer;

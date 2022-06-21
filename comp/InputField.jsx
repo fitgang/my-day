@@ -1,4 +1,9 @@
+import { useDispatch } from "react-redux";
+import { updateFormValues } from "../store/reducers/inputTask";
+
 export default function InputField(props) {
+  const dispatch = useDispatch();
+
   const { type, label, ...otherProps } = props;
 
   // For textarea inputs
@@ -6,7 +11,7 @@ export default function InputField(props) {
     return (
       <div className="field" id={label}>
         <label htmlFor={props.id}>{label}</label>
-        <textarea {...otherProps}></textarea>
+        <textarea {...otherProps} onChange={handleChange}></textarea>
         <div className="error-box"></div>
       </div>
     );
@@ -16,14 +21,21 @@ export default function InputField(props) {
   return (
     <div className="field" id={label}>
       <label htmlFor={props.id}>{label}</label>
-      <input type={type} {...otherProps} />
+      <input type={type} {...otherProps} onChange={handleChange} />
       <div className="error-box"></div>
     </div>
   );
+
+  function handleChange(e) {
+    const elem = e.target;
+    dispatch(updateFormValues({ [elem.name]: elem.value }));
+  }
 }
 
 export function TimeField(props) {
-  const { id, label, defaultValue } = props;
+  const dispatch = useDispatch();
+
+  const { id, label, value, name } = props;
 
   return (
     <div className="time field" id={label}>
@@ -32,29 +44,34 @@ export function TimeField(props) {
       <div className="time-input-container">
         <div className="number-input">
           <input
+            type="number"
             className="input-hours"
             id={id}
             aria-label="hours"
-            defaultValue={defaultValue.slice(0, 2)}
+            value={value.hour}
+            onChange={handleHourChange}
+            
           />
 
           <input
+            type="number"
             className="input-minutes"
             aria-label="minutes"
-            defaultValue={defaultValue.slice(3, 5)}
+            value={value.min}
+            onChange={handleMinuteChange}
           />
         </div>
 
         <div className="ampm-input">
           <div
-            className={"m" + defaultValue.slice(-2) === "AM" ? "selected" : ""}
+            className={"m" + value.m.toLowerCase() === "am" ? "selected" : ""}
             data-input="AM"
           >
             AM
           </div>
 
           <div
-            className={"m" + defaultValue.slice(-2) === "PM" ? "selected" : ""}
+            className={"m" + value.m.toLowerCase() === "pm" ? "selected" : ""}
             data-input="PM"
           >
             PM
@@ -65,4 +82,27 @@ export function TimeField(props) {
       <div className="error-box"></div>
     </div>
   );
+
+  function handleHourChange(e) {
+    console.log(e.target.value);
+    dispatch(
+      updateFormValues({
+        [name]: {
+          ...value,
+          hour: e.target.value,
+        }
+      })
+    );
+  }
+
+  function handleMinuteChange(e) {
+    dispatch(
+      updateFormValues({
+        [name]: {
+          ...value,
+          min: e.target.value,
+        }
+      })
+    );
+  }
 }

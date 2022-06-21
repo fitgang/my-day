@@ -5,25 +5,30 @@ import { CloseIcon, MoreIcon, ShowIcon } from "./Icon";
 
 export default function Task(props) {
   const [expand, setExpand] = useState(false),
-   [options, setOptions] = useState(false);
+    [options, setOptions] = useState(false);
 
   const expandingElem = useRef();
 
-  const status = evaluateStatusOf(props.task);
-  const { heading, description, from, to, id } = props.task;
+  // const status = evaluateStatusOf(props.task);
+  const { name, description, from, to, id } = props.task;
 
   return (
     <li>
       <div className="primary">
         <div className="check-action-container">
-          <input type="checkbox" aria-label={heading} />
+          <input type="checkbox" aria-label={name} />
         </div>
 
         <div className="details">
-          <h4>{heading}</h4>
+          <h4>{name}</h4>
           <div className="duration">
-            <span className="from">{from}</span> -{" "}
-            <span className="to">{to}</span>
+            <span className="from">
+              {`${from.hour.toString().padStart(2, "0")}:${from.min.toString().padStart(2, "0")}${from.m}`}
+            </span>
+            <span> - </span>
+            <span className="to">
+              {`${to.hour.toString().padStart(2, "0")}:${to.min.toString().padStart(2, "0")}${to.m}`}
+            </span>
           </div>
         </div>
 

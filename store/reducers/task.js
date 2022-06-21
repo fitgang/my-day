@@ -6,6 +6,36 @@ import { getTasksForToday } from "../../js/dataFunctions";
 // task - all the tasks for the day
 const tasks = await getTasksForToday();
 
+for (const taskID in tasks) {
+  const task = tasks[taskID];
+  
+  const hourRegex = /\d{1,2}(?=:)/,
+    minRegex = /\d{1,2}(?!:)/,
+    mRegex = /am|pm/i;
+
+  // changing 'from' time
+  let time = task.from,
+    hour = Number(time.match(hourRegex)[0]),
+    min = Number(time.match(minRegex)[0]),
+    m = time.match(mRegex)[0];
+  task.from = {
+    hour: hour,
+    min: min,
+    m: m,
+  };
+
+  // changing 'to' time
+  time = task.to;
+  hour = Number(time.match(hourRegex)[0]);
+  min = Number(time.match(minRegex)[0]);
+  m = time.match(mRegex)[0];
+  task.to = {
+    hour: hour,
+    min: min,
+    m: m,
+  };
+}
+
 const initialState = {
   task: tasks,
 };

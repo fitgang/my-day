@@ -30,23 +30,25 @@ export default function InputTask() {
 
           <InputField
             id="input-name"
+            name="name"
             label="Name"
             type="text"
             placeholder="Create a new task"
-            defaultValue={name}
+            value={name}
           />
 
           <InputField
             id="input-description"
             label="Describe the task"
+            name="description"
             type="textarea"
             placeholder="The task will have a name and a description"
-            defaultValue={description}
+            value={description}
           />
 
           <div>
-            <TimeField label="from" id="input-from" defaultValue={from} />
-            <TimeField label="to" id="input-to" defaultValue={to}/>
+            <TimeField label="from" id="input-from" name="from" value={from} />
+            <TimeField label="to" id="input-to" name="to" value={to} />
           </div>
 
           <div className="form-actions">
@@ -54,9 +56,7 @@ export default function InputTask() {
               Cancel
             </button>
 
-            <button onClick={handleSubmit}>
-              Add
-            </button>
+            <button onClick={handleSubmit}>Add</button>
           </div>
         </form>
       </div>
@@ -68,7 +68,8 @@ export default function InputTask() {
   }
 
   function handleClose() {
-    dispatch(toggleFormDisplay(false));
+    // Clears and hides the form
+    dispatch(emptyForm());
   }
 
   function handleSubmit() {
@@ -85,9 +86,7 @@ export default function InputTask() {
     console.log("submitted");
   }
 
-  function checkForErrors() {
-    
-  }
+  function checkForErrors() {}
 
   function validateAndCreateNewTask() {
     return;

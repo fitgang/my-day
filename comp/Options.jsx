@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFormDisplay, updateFormValues } from "../store/reducers/inputTask";
 import { removeTask } from "../store/reducers/task";
 import { DeleteIcon, EditIcon } from "./Icon";
 
@@ -7,6 +8,9 @@ export default function Options(props) {
   const dispatch = useDispatch();
 
   const optionsElem = useRef();
+
+  // Use taskID passed as a prop to find the task in the store
+  const task = useSelector((store) => store.task.task[props.taskID]);
 
   return (
     <div
@@ -17,7 +21,7 @@ export default function Options(props) {
           props.show === true ? `${optionsElem.current.scrollHeight}px` : 0,
       }}
     >
-      <button type="button">
+      <button type="button" onClick={editTask}>
         <EditIcon />
       </button>
 
@@ -56,8 +60,10 @@ export default function Options(props) {
     }
   }
 
-  function handleClickOnEdit() {
-    // Use taskID passed as a prop to find the task in the store
+  function editTask() {
     // Put the data accordingly in the 'InputTask' form
+    dispatch(updateFormValues({newTask: false, ...task}));
+    // Show the form
+    dispatch(toggleFormDisplay(true));
   }
 }

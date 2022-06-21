@@ -26,50 +26,50 @@ export async function getTasksForToday() {
   const tasks = {
     1: {
       id: "1",
-      heading: "Complet my-day",
+      name: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
-      from: "8:00AM",
+      from: "08:00AM",
       to: "12:00AM"
     },
 
     2: {
       id: "2",
-      heading: "Buy new glasses",
+      name: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
-      from: "10AM",
-      to: "11AM"
+      from: "10:00AM",
+      to: "11:00AM"
     },
 
     3: {
       id: "3",
-      heading: "Complet my-day",
+      name: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
-      from: "8:00AM",
+      from: "08:00AM",
       to: "12:00AM"
     },
 
     4: {
       id: "4",
-      heading: "Buy new glasses",
+      name: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
-      from: "2:15 PM",
-      to: "2:15 PM"
+      from: "02:15 PM",
+      to: "02:15 PM"
     },
 
     5: {
       id: "5",
-      heading: "Complet my-day",
+      name: "Complet my-day",
       description: "Complete the app to learn redux and next and react, so that you can apply to internships.",
-      from: "8:00AM",
+      from: "08:00AM",
       to: "12:00AM"
     },
     
     6: {
       id: "6",
-      heading: "Buy new glasses",
+      name: "Buy new glasses",
       description: "The bigger ones or the stark one will be better.",
-      from: "2:15 PM",
-      to: "2:15 PM"
+      from: "02:15 PM",
+      to: "02:15 PM"
     }
   };
   return tasks
