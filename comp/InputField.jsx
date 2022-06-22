@@ -4,12 +4,12 @@ import { updateFormValues } from "../store/reducers/inputTask";
 export default function InputField(props) {
   const dispatch = useDispatch();
 
-  const { type, label, ...otherProps } = props;
+  const { type, label, name, ...otherProps } = props;
 
   // For textarea inputs
   if (type === "textarea") {
     return (
-      <div className="field" id={label}>
+      <div className="field" id={name}>
         <label htmlFor={props.id}>{label}</label>
         <textarea {...otherProps} onChange={handleChange}></textarea>
         <div className="error-box"></div>
@@ -19,7 +19,7 @@ export default function InputField(props) {
 
   // For other inputs
   return (
-    <div className="field" id={label}>
+    <div className="field" id={name}>
       <label htmlFor={props.id}>{label}</label>
       <input type={type} {...otherProps} onChange={handleChange} />
       <div className="error-box"></div>
@@ -28,7 +28,7 @@ export default function InputField(props) {
 
   function handleChange(e) {
     const elem = e.target;
-    dispatch(updateFormValues({ [elem.name]: elem.value }));
+    dispatch(updateFormValues({ [name]: elem.value }));
   }
 }
 
@@ -64,14 +64,14 @@ export function TimeField(props) {
 
         <div className="ampm-input">
           <div
-            className={"m" + value.m.toLowerCase() === "am" ? "selected" : ""}
+            className={"m " + (value.m.toLowerCase() === "am" ? "selected" : "")}
             data-input="AM"
           >
             AM
           </div>
 
           <div
-            className={"m" + value.m.toLowerCase() === "pm" ? "selected" : ""}
+            className={"m " + (value.m.toLowerCase() === "pm" ? "selected" : "")}
             data-input="PM"
           >
             PM
@@ -84,12 +84,11 @@ export function TimeField(props) {
   );
 
   function handleHourChange(e) {
-    console.log(e.target.value);
     dispatch(
       updateFormValues({
         [name]: {
           ...value,
-          hour: e.target.value,
+          hour: e.target.value.trim(),
         }
       })
     );
@@ -100,7 +99,7 @@ export function TimeField(props) {
       updateFormValues({
         [name]: {
           ...value,
-          min: e.target.value,
+          min: e.target.value.trim(),
         }
       })
     );

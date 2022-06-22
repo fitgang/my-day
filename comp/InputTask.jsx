@@ -8,7 +8,7 @@ import {
   updateFormValues,
 } from "../store/reducers/inputTask";
 import InputField, { TimeField } from "./InputField";
-import { useRef } from "react";
+import { addTask } from "../store/reducers/task";
 
 export default function InputTask() {
   const { open, name, description, to, from, newTask } = useSelector(
@@ -16,7 +16,7 @@ export default function InputTask() {
   );
   const dispatch = useDispatch();
 
-  const formElem = useRef();
+  // const formElem = useRef();
 
   return (
     <>
@@ -25,7 +25,10 @@ export default function InputTask() {
       </button>
 
       <div className={open === true ? "modal" : "none"}>
-        <form id="input-task-form" ref={formElem}>
+        <form
+          id="input-task-form"
+          // ref={formElem}
+        >
           <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
 
           <InputField
@@ -70,65 +73,83 @@ export default function InputTask() {
   function handleClose() {
     // Clears and hides the form
     dispatch(emptyForm());
+    document.querySelectorAll(".error-box").forEach(elem => elem.innerHTML = "");
   }
 
-  function handleSubmit() {
-    // Check for errors
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Check for errors and informs the user if found
     if (checkForErrors() === true) return;
 
     // Create new task object
-    validateAndCreateNewTask();
+    const task = createNewTask();
     // Save it to DB
-    // Else update the store and inform the user about success
-    // Empty and close the form
-    dispatch(emptyForm());
+    // If some error occured, inform the user and return
+    // Else update the store and change the UI
+    dispatch(addTask(task));
     handleClose();
     console.log("submitted");
   }
 
-  function checkForErrors() {}
+  function checkForErrors() {
+    let errorFound = false;
 
-  function validateAndCreateNewTask() {
-    return;
-    // Validate data
-    validateData();
-
-    // View the first field with an error
-    if (errorFoundInElemAtIndex !== -1) {
-      inputElems[errorFoundInElemAtIndex].focus();
-      return;
+    // Check 'name' field
+    if (name.trim().length === 0) {
+      document.querySelector("#name .error-box").innerHTML =
+        "*Please enter the task name.";
+      errorFound = true;
     }
+
+    // Check if time fields are empty
+    if (from.hour.trim().length === 0) {
+      document.querySelector("#from .error-box").innerHTML =
+        "*Please provide an hour to start from";
+      errorFound = true;
+    }
+
+    if (to.hour.trim().length === 0) {
+      document.querySelector("#to .error-box").innerHTML =
+        "*Please provide an hour as deadline.";
+      errorFound = true;
+    }
+
+    if (errorFound) return true;
+
+    // Check if 'from' time is greater than or equal to 'to' time
+    if (from.m === to.m) {
+      // If both are same,i.e., 'am' or 'pm'
+      if (
+        Number(from.hour) > Number(to.hour) ||
+        (from.hour === to.hour && Number(from.min) >= Number(to.min))
+      ) {
+        ["from", "to"].forEach(
+          (id) =>
+            (document.querySelector(`#${id} .error-box`).innerHTML =
+              "*Please choose a 'to' time which comes later than 'from' time or do the opposite.")
+        );
+        return true;
+      }
+    } else if (from.m.toLowerCase() === "pm") {
+      ["from", "to"].forEach(
+        (id) =>
+          (document.querySelector(`#${id} .error-box`).innerHTML =
+            "*Please choose a 'to' time which comes later than 'from' time or do the opposite.")
+      );
+      return true
+    }
+
+    return false;
   }
-}
 
-function validateInput(inputElem) {
-  if (inputElem.type.includes("text")) {
-    const input = inputElem.value.trimStart().replaceAll("  ", " ");
-    inputElem.value = input;
+
+  function createNewTask() {
+    const task = {
+      name: name.trim().replaceAll("  ", " "),
+      description: description.trim().replaceAll("  ", " "),
+      from: from,
+      to: to,
+    }
+    return task
   }
-  return validateData(inputElem.value, inputElem.type);
-}
-
-function emptyFormAndHide(formElem) {
-  // Hide form
-  dispatch(hideInputForm());
-
-  // Empty all fields in the form
-  const inputElems = formElem.querySelectorAll("input, textarea");
-  inputElems.forEach((elem) => {
-    // Clear fields
-    elem.value = "";
-    // Clear errors
-    clearErrorBoxOf(elem);
-  });
-}
-
-function showErrorToUser(error, inputElem) {
-  const errorBox = inputElem.parentElement.querySelector(".error-box");
-  errorBox.innerHTML = error;
-}
-
-function clearErrorBoxOf(inputElem) {
-  const errorBox = inputElem.parentElement.querySelector(".error-box");
-  errorBox.innerHTML = "";
 }

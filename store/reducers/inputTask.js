@@ -10,13 +10,13 @@ const initialState = {
   name: "",
   description: "",
   from: {
-    hour: 12,
-    min: 0,
-    m: "am"
+    hour: '12',
+    min: '',
+    m: "pm"
   },
   to: {
-    hour: 12,
-    min: 0,
+    hour: '12',
+    min: '',
     m: "pm"
   },
 };
