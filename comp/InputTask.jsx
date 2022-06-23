@@ -1,22 +1,15 @@
 // TODO: make the view of inputTAsk form a global state on the client side
 import { useDispatch, useSelector } from "react-redux";
 import { AddIcon } from "./Icon";
-import { validateData } from "../js/dataFunctions";
-import {
-  emptyForm,
-  toggleFormDisplay,
-  updateFormValues,
-} from "../store/reducers/inputTask";
+import { emptyForm, toggleFormDisplay } from "../store/reducers/inputTask";
 import InputField, { TimeField } from "./InputField";
-import { addTask } from "../store/reducers/task";
+import { addTask, updateTask } from "../store/reducers/task";
 
 export default function InputTask() {
-  const { open, name, description, to, from, newTask } = useSelector(
+  const { open, name, description, to, from, newTask, id } = useSelector(
     (store) => store.inputTask
   );
   const dispatch = useDispatch();
-
-  // const formElem = useRef();
 
   return (
     <>
@@ -25,10 +18,7 @@ export default function InputTask() {
       </button>
 
       <div className={open === true ? "modal" : "none"}>
-        <form
-          id="input-task-form"
-          // ref={formElem}
-        >
+        <form id="input-task-form">
           <h2>{newTask === true ? "New Task" : "Edit Task"}</h2>
 
           <InputField
@@ -59,7 +49,9 @@ export default function InputTask() {
               Cancel
             </button>
 
-            <button onClick={handleSubmit}>Add</button>
+            <button onClick={handleSubmit}>
+              {newTask === true ? "Add" : "Update"}
+            </button>
           </div>
         </form>
       </div>
@@ -73,7 +65,9 @@ export default function InputTask() {
   function handleClose() {
     // Clears and hides the form
     dispatch(emptyForm());
-    document.querySelectorAll(".error-box").forEach(elem => elem.innerHTML = "");
+    document
+      .querySelectorAll(".error-box")
+      .forEach((elem) => (elem.innerHTML = ""));
   }
 
   function handleSubmit(e) {
@@ -81,14 +75,27 @@ export default function InputTask() {
     // Check for errors and informs the user if found
     if (checkForErrors() === true) return;
 
-    // Create new task object
-    const task = createNewTask();
-    // Save it to DB
-    // If some error occured, inform the user and return
-    // Else update the store and change the UI
-    dispatch(addTask(task));
+    if (newTask === true) {
+      // Create new task object
+      const task = createNewTask();
+      // Save it to DB
+      // If some error occured, inform the user and return
+      // Else update the store and change the UI
+      dispatch(addTask(task));
+      console.log("submitted");
+    } else {
+      // If an old task is updated
+      // A new task object will be replaced with the old one in the database
+      const task = createNewTask();
+      // Save it to DB
+      // If some error occured, inform the user and return
+      // Else update the store and change the UI
+
+      dispatch(updateTask({ id, ...task }));
+      console.log("updated");
+    }
+
     handleClose();
-    console.log("submitted");
   }
 
   function checkForErrors() {
@@ -136,12 +143,11 @@ export default function InputTask() {
           (document.querySelector(`#${id} .error-box`).innerHTML =
             "*Please choose a 'to' time which comes later than 'from' time or do the opposite.")
       );
-      return true
+      return true;
     }
 
     return false;
   }
-
 
   function createNewTask() {
     const task = {
@@ -149,7 +155,7 @@ export default function InputTask() {
       description: description.trim().replaceAll("  ", " "),
       from: from,
       to: to,
-    }
-    return task
+    };
+    return task;
   }
 }

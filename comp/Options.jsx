@@ -65,5 +65,6 @@ export default function Options(props) {
     dispatch(updateFormValues({newTask: false, ...task}));
     // Show the form
     dispatch(toggleFormDisplay(true));
+    props.closeOptions();
   }
 }

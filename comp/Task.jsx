@@ -23,11 +23,11 @@ export default function Task(props) {
           <h4>{name}</h4>
           <div className="duration">
             <span className="from">
-              {`${from.hour.toString().padStart(2, "0")}:${from.min.toString().padStart(2, "0")}${from.m}`}
+              {`${from.hour.padStart(2, "0")}:${from.min.padStart(2, "0")}${from.m}`}
             </span>
             <span> - </span>
             <span className="to">
-              {`${to.hour.toString().padStart(2, "0")}:${to.min.toString().padStart(2, "0")}${to.m}`}
+              {`${to.hour.padStart(2, "0")}:${to.min.padStart(2, "0")}${to.m}`}
             </span>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function Task(props) {
         </div>
       </div>
 
-      <Options show={options} taskID={id} />
+      <Options show={options} taskID={id} closeOptions={toggleOptions}/>
 
       <p
         className="secondary"

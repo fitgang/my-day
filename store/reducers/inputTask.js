@@ -37,13 +37,9 @@ const inputTaskSlice = createSlice({
     },
     updateFormValues: (state, action) => {
       // Update the values of form inputs
-      const inputs = action.payload;
-      if (inputs.hasOwnProperty("name")) state.name = inputs.name;
-      if (inputs.hasOwnProperty("description"))
-        state.description = inputs.description;
-      if (inputs.hasOwnProperty("from")) state.from = inputs.from;
-      if (inputs.hasOwnProperty("to")) state.to = inputs.to;
-      if (inputs.hasOwnProperty("newTask")) state.newTask = inputs.newTask;
+      for (let prop in action.payload) {
+        state[prop] = action.payload[prop]
+      }
     },
   },
 });
