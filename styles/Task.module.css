@@ -1,6 +1,44 @@
+.task {
+  padding: 0 0.75em;
+  padding-top: 0.5em;
+}
+
+.primary {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.details {
+  flex-grow: 1;
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+.details>h4 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 1.125em;
+  margin-bottom: 0.25em;
+}
+
+.duration {
+  font-size: 0.9em;
+}
+
+.other-actions-container {
+  display: flex;
+  gap: 0.25em;
+  flex-direction: column;
+}
+
 .secondary,
 .options {
   transition: max-height 1s ease;
   margin: 0;
   overflow: hidden;
+}
+
+.secondary>p {
+  margin: 0;
+  margin-bottom:0.5em;
 }

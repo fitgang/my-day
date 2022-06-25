@@ -13,7 +13,7 @@ export default function Task(props) {
   const { name, description, from, to, id } = props.task;
 
   return (
-    <li>
+    <li className="task">
       <div className="primary">
         <div className="check-action-container">
           <input type="checkbox" aria-label={name} />
@@ -47,9 +47,7 @@ export default function Task(props) {
         </div>
       </div>
 
-      <Options show={options} taskID={id} closeOptions={toggleOptions}/>
-
-      <p
+      <div
         className="secondary"
         ref={expandingElem}
         style={{
@@ -57,8 +55,10 @@ export default function Task(props) {
             expand === true ? `${expandingElem.current.scrollHeight}px` : 0,
         }}
       >
-        {description}
-      </p>
+        <p>{description}</p>
+      </div>
+
+      <Options show={options} taskID={id} closeOptions={toggleOptions} />
     </li>
   );
 
