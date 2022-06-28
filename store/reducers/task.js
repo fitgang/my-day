@@ -43,12 +43,8 @@ const taskSlice = createSlice({
     },
     removeTask: (state, action) => {
       // Remove task from state
-      for (const taskID in state.task) {
-        if (taskID == action.payload) {
-          delete state.task[taskID];
-          break;
-        }
-      }
+      const taskID = action.payload;
+      delete state.task[taskID];
     },
     updateTask: (state, action) => {
       // Update task in DB and in state

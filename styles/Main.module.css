@@ -5,6 +5,8 @@ main {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: #e6e6e6;
+  box-shadow: 0 0 10px 0px hsl(0deg 0% 0%);
 }
 
 h1 {
@@ -15,4 +17,5 @@ h1 {
   padding: 0.25em 0.5em;
   padding-top: 1em;
   padding-left: 0.75em;
+  box-shadow: 0px 0px 10px #0006;
 }

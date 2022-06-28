@@ -1,6 +1,32 @@
+:root {
+  --button-border: 1px solid #999;
+}
+
 .task {
-  padding: 0 0.75em;
   padding-top: 0.5em;
+}
+
+.checkbox {
+  --edge: 16px;
+  width: var(--edge);
+  height: var(--edge);
+  border-radius: 50px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.125em;
+  margin-right: 0.5em;
+}
+
+.checkbox:hover{
+  cursor: pointer;
+  background-color: #00000080;
+}
+
+.primary,
+.secondary {
+  padding: 0 1em;
 }
 
 .primary {
@@ -14,7 +40,8 @@
   margin-left: 0.5em;
   margin-right: 1em;
 }
-.details>h4 {
+
+.details > h4 {
   margin: 0;
   font-weight: normal;
   font-size: 1.125em;
@@ -26,19 +53,48 @@
 }
 
 .other-actions-container {
+  --button-edge: 32px;
+  width: var(--button-edge);
+  height: calc(2 * var(--button-edge));
   display: flex;
-  gap: 0.25em;
   flex-direction: column;
+  align-self: stretch;
+}
+
+.other-actions-container > button {
+  border: none;
+  flex-grow: 1;
+  background-color: transparent;
+}
+
+.other-actions-container > .more {
+  border-bottom: 1px solid #999;
 }
 
 .secondary,
 .options {
-  transition: max-height 1s ease;
+  transition: max-height 0.5s ease;
   margin: 0;
   overflow: hidden;
 }
 
-.secondary>p {
+.secondary {
+  background-color: #0000001a;
+}
+
+.secondary > p {
   margin: 0;
-  margin-bottom:0.5em;
+  margin-bottom: 0.5em;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+}
+
+.options > button {
+  flex-grow: 1;
+  border: none;
+  padding: 1.5em 1em;
+  font-size: 1em;
 }

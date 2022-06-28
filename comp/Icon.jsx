@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEllipsisVertical, faAngleDown, faXmark, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEllipsisVertical, faAngleDown, faXmark, faPencil, faTrash, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export function AddIcon() {
   return <FontAwesomeIcon icon={faPlus} />
@@ -23,4 +23,8 @@ export function EditIcon() {
 
 export function DeleteIcon() {
   return <FontAwesomeIcon icon={faTrash} />
+}
+
+export function CheckIcon() {
+  return <FontAwesomeIcon icon={faCircleCheck} />
 }

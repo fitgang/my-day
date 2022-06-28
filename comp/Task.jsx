@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Options from "./Options";
-import theme from "../styles/theme";
 import { CloseIcon, MoreIcon, ShowIcon } from "./Icon";
+import CheckBox from "./Checkbox";
 
 export default function Task(props) {
   const [expand, setExpand] = useState(false),
@@ -15,9 +15,7 @@ export default function Task(props) {
   return (
     <li className="task">
       <div className="primary">
-        <div className="check-action-container">
-          <input type="checkbox" aria-label={name} />
-        </div>
+        <CheckBox taskID={id} />
 
         <div className="details">
           <h4>{name}</h4>
