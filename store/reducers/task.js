@@ -35,6 +35,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
+      // Add task to DB returning its unique ID
       // Add task to store
       const id = Object.keys(state.task).length + 1,
         taskObj = action.payload;
@@ -42,12 +43,14 @@ const taskSlice = createSlice({
       state.task[id] = taskObj;
     },
     removeTask: (state, action) => {
+      // Remove task from DB
       // Remove task from state
       const taskID = action.payload;
       delete state.task[taskID];
     },
     updateTask: (state, action) => {
-      // Update task in DB and in state
+      // Update task in DB
+      // Update task in DB
       const { id } = action.payload;
       state.task[id] = action.payload;
     },
