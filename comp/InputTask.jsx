@@ -4,6 +4,7 @@ import { AddIcon } from "./Icon";
 import { emptyForm, toggleFormDisplay } from "../store/reducers/inputTask";
 import InputField, { TimeField } from "./InputField";
 import { addTask, updateTask } from "../store/reducers/task";
+import { storeTaskToDB } from "../js/dataFunctions";
 
 export default function InputTask() {
   const { open, name, description, to, from, newTask, id } = useSelector(
@@ -70,7 +71,7 @@ export default function InputTask() {
       .forEach((elem) => (elem.innerHTML = ""));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     // Check for errors and informs the user if found
     if (checkForErrors() === true) return;
@@ -79,10 +80,17 @@ export default function InputTask() {
       // Create new task object
       const task = createNewTask();
       // Save it to DB
+      const id = await storeTaskToDB(task);
+
       // If some error occured, inform the user and return
-      // Else update the store and change the UI
-      dispatch(addTask(task));
-      console.log("submitted");
+      if (id.length === 0) alert("error occured on storing to DB.");
+
+      else {
+        // Else update the store and change the UI
+        task.id = id;
+        dispatch(addTask(task));
+      }
+
     } else {
       // If an old task is updated
       // A new task object will be replaced with the old one in the database
@@ -92,7 +100,6 @@ export default function InputTask() {
       // Else update the store and change the UI
 
       dispatch(updateTask({ id, ...task }));
-      console.log("updated");
     }
 
     handleClose();

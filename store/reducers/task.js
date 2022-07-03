@@ -1,22 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { getTasksForToday } from "../../js/dataFunctions";
+import { getTasksForToday, storeTaskToDB } from "../../js/dataFunctions";
 
 // Initialize state with properties -
 // task - all the tasks for the day
-const tasks = await getTasksForToday();
+const tasksArr = await getTasksForToday();
 
-for (const taskID in tasks) {
-  const task = tasks[taskID];
+let tasksObj = {};
+
+for (const task of tasksArr) {
+  // const task = tasks[taskID];
 
   const hourRegex = /\d{1,2}(?=:)/,
-    minRegex = /\d{1,2}(?!:)/,
+    minRegex = /:\d{1,2}/,
     mRegex = /am|pm/i;
 
   ["from", "to"].forEach((timeType) => {
     let time = task[timeType],
       hour = time.match(hourRegex)[0],
-      min = time.match(minRegex)[0],
+      min = time.match(minRegex)[0].substring(1),
       m = time.match(mRegex)[0];
     task[timeType] = {
       hour: hour,
@@ -24,10 +26,12 @@ for (const taskID in tasks) {
       m: m,
     };
   });
+
+  tasksObj[task._id] = task
 }
 
 const initialState = {
-  task: tasks,
+  task: tasksObj,
 };
 
 const taskSlice = createSlice({
@@ -35,12 +39,10 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
-      // Add task to DB returning its unique ID
       // Add task to store
-      const id = Object.keys(state.task).length + 1,
-        taskObj = action.payload;
-      taskObj.id = id;
-      state.task[id] = taskObj;
+      const {id} = action.payload;
+      state.task[id] = action.payload;
+      console.log("task added");
     },
     removeTask: (state, action) => {
       // Remove task from DB

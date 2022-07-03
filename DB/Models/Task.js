@@ -1,14 +1,11 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
-  heading: {
+  name: {
     type: String,
     required: true
   },
-  description: {
-    type: String,
-    required: true
-  },
+  description: String,
   from: {
     type: String,
     required: true
@@ -19,4 +16,4 @@ const taskSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Task", taskSchema);
+export default mongoose.models.Task || mongoose.model("Task", taskSchema);;

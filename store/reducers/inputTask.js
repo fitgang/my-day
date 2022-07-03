@@ -25,7 +25,7 @@ const inputTaskSlice = createSlice({
   name: "inputTask",
   initialState,
   reducers: {
-    emptyForm: (state) => {
+    emptyForm: () => {
       return {
         open: false,
         newTask: true,
